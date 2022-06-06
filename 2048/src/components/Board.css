@@ -1,3 +1,10 @@
+.board {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translateY(-50%) translateX(50%);
+}
+
 .board__row {
 
 }
@@ -6,11 +13,10 @@
     width: 80px;
     height: 80px;
     text-align: center;
-
-
     border: 1px solid tan;
     border-radius: 8px;
     margin-right: 8px;
+    margin-bottom: 8px;
     display: inline-block;
     position: relative;
 
@@ -18,4 +24,54 @@
 
 .board__item {
 
+}
+
+.cell2 {
+    background-color: tan;
+}
+
+.cell4 {
+    background-color: rgb(178, 143, 96);
+}
+
+.cell8 {
+    background-color: rgb(141, 109, 69);
+
+}
+
+.cell16 {
+    background-color: rgb(194, 89, 78);
+}
+
+.cell32 {
+    background-color: rgb(193, 65, 50);
+}
+
+.cell64 {
+    background-color: rgb(203, 41, 23);
+
+}
+
+.cell128 {
+    background-color: rgb(193, 65, 50);
+
+}
+
+.cell256 {
+    background-color: rgb(181, 193, 50);
+
+}
+
+.cell512 {
+    background-color: rgb(192, 207, 33);
+
+}
+
+.cell1024 {
+    background-color: rgb(222, 215, 19);
+
+}
+
+.cell2048 {
+    background-color: rgb(237, 215, 12);
 }
