@@ -3,6 +3,7 @@
     top: 50%;
     right: 50%;
     transform: translateY(-50%) translateX(50%);
+    z-index: 1;
 }
 
 .board__row {
@@ -20,6 +21,10 @@
     display: inline-block;
     position: relative;
 
+}
+
+.board__cell:nth-child(4) {
+    margin-right: 0;
 }
 
 .board__item {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Board from './Board'
+import PopoverMessage from './PopoverMessage'
 
 function moveLeft(board) {
     for (let row = 0; row < board.length; row++) {
@@ -129,61 +130,105 @@ function mergeDown(board) {
     return JSON.parse(JSON.stringify(board))
 }
 
-function generateRandomCell(board) {
-    let emptyCells = []
-    for (let row = 0; row < board.length; row++) {
-        for (let col = 0; col < board.length; col++) {
-            if (board[row][col] === 0) {
-                emptyCells.push([row, col])
-            }
-        }
-    }
-    let generateValue = [2, 4]
-    let randomValue = Math.floor(Math.random() * emptyCells.length)
-    board[emptyCells[randomValue][0]][emptyCells[randomValue][1]] = generateValue[Math.floor(Math.random() * 2)]
-    return JSON.parse(JSON.stringify(board))
-}
+
 
 export default function Game() {
-    let [board, setBoard] = useState(
-        [
+
+    let [board, setBoard] = useState({
+        "board": generateRandomCell([
             [0,0,0,0],
             [0,0,0,0],
             [0,0,0,0],
             [0,0,0,0]
-        ]
-    )
+        ]),
+        "isWon": false,
+        "isLost": false,
+
+        })
+
+    console.log("rerender", board)
+
+    function generateRandomCell(board) {
+        let emptyCells = []
+        for (let row = 0; row < board.length; row++) {
+            for (let col = 0; col < board.length; col++) {
+                if (board[row][col] === 0) {
+                    emptyCells.push([row, col])
+                }
+            }
+        }
+        let generateValue = [2, 4]
+        let randomValue = Math.floor(Math.random() * emptyCells.length)
+        board[emptyCells[randomValue][0]][emptyCells[randomValue][1]] = generateValue[Math.floor(Math.random() * 2)]
+        return JSON.parse(JSON.stringify(board))
+    
+    }
+
+    function checkLoseCondition(board) {
+        for (let row = 0; row < board.board.length; row++) {
+            for (let col = 0; col < board.board.length; col++) {
+                if (board.board[row][col] === 0) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
 
     useEffect(() => {
-        setBoard(generateRandomCell(board))
-        window.addEventListener('keydown', (event) => {
-            if (event.key === "ArrowLeft") {
-                board = moveLeft(board)
-                board = mergeLeft(board)
-                board = moveLeft(board)
-            } else if (event.key === "ArrowRight") {
-                board = moveRight(board)
-                board = mergeRight(board)
-                board = moveRight(board)
-
-            } else if (event.key === "ArrowUp") {
-                board = moveUp(board)
-                board = mergeUp(board)
-                board = moveUp(board)
-            } else if (event.key === "ArrowDown") {
-                console.log(board)
-                board = moveDown(board)
-                board = mergeDown(board)
-                board = moveDown(board)
+        const handler = (event) => {
+            if (!board.isLost) {
+                if (event.key === "ArrowLeft") {
+                    board.board = moveLeft(board.board)
+                    board.board = mergeLeft(board.board)
+                    board.board = moveLeft(board.board)
+                } else if (event.key === "ArrowRight") {
+                    board.board = moveRight(board.board)
+                    board.board = mergeRight(board.board)
+                    board.board = moveRight(board.board)
+    
+                } else if (event.key === "ArrowUp") {
+                    board.board = moveUp(board.board)
+                    board.board = mergeUp(board.board)
+                    board.board = moveUp(board.board)
+                } else if (event.key === "ArrowDown") {
+                    board.board = moveDown(board.board)
+                    board.board = mergeDown(board.board)
+                    board.board = moveDown(board.board)
+                }
+                let result = generateRandomCell(board.board)
+                
+                setBoard(
+                    {
+                        "board": result,
+                        "isWon": false,
+                        "isLost": checkLoseCondition(board)
+                    }
+                )
             }
-            setBoard(generateRandomCell(board))
-            
+        }
+        window.addEventListener('keydown', handler)
+        return () => window.removeEventListener("keydown", handler)
+    }, [board])
+
+    const playAgainHandler = () => {
+        setBoard({
+            "board": generateRandomCell([
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0]
+            ]),
+            "isWon": false,
+            "isLost": false
         })
-    }, [])
-
-
+    }
 
     return (
-        <Board data={board} />
+        <>
+            {board.isWon ? <PopoverMessage message={"You win"} handler={playAgainHandler} /> : ""}
+            {board.isLost ? <PopoverMessage message={"You lost"} handler={playAgainHandler} /> : ""}
+            <Board data={board} />
+        </>
     )
 }

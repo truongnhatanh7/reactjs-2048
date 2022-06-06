@@ -1,0 +1,15 @@
+
+.popover-wrapper {
+    padding: 18px 24px;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translateY(-50%) translateX(50%);
+    z-index: 3000;
+    display: grid;
+    place-items: center;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
