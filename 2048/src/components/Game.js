@@ -129,17 +129,33 @@ function mergeDown(board) {
     return JSON.parse(JSON.stringify(board))
 }
 
+function generateRandomCell(board) {
+    let emptyCells = []
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board.length; col++) {
+            if (board[row][col] === 0) {
+                emptyCells.push([row, col])
+            }
+        }
+    }
+    let generateValue = [2, 4]
+    let randomValue = Math.floor(Math.random() * emptyCells.length)
+    board[emptyCells[randomValue][0]][emptyCells[randomValue][1]] = generateValue[Math.floor(Math.random() * 2)]
+    return JSON.parse(JSON.stringify(board))
+}
+
 export default function Game() {
     let [board, setBoard] = useState(
         [
-            [0,0,0,8],
-            [0,2,2,0],
-            [4,4,4,4],
-            [8,0,8,0]
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0]
         ]
     )
 
     useEffect(() => {
+        setBoard(generateRandomCell(board))
         window.addEventListener('keydown', (event) => {
             if (event.key === "ArrowLeft") {
                 board = moveLeft(board)
@@ -160,7 +176,8 @@ export default function Game() {
                 board = mergeDown(board)
                 board = moveDown(board)
             }
-            setBoard(board)
+            setBoard(generateRandomCell(board))
+            
         })
     }, [])
 
