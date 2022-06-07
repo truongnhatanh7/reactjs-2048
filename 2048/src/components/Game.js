@@ -135,12 +135,9 @@ function mergeDown(board) {
 export default function Game() {
 
     let [board, setBoard] = useState({
-        "board": generateRandomCell([
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0]
-        ]),
+        "board": [
+            [2048, 0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]
+        ],
         "isWon": false,
         "isLost": false,
 
@@ -175,6 +172,18 @@ export default function Game() {
         return true
     }
 
+    function checkWinCondition(board) {
+        for (let row = 0; row < board.board.length; row++) {
+            for (let col = 0; col < board.board.length; col++) {
+                if (board.board[row][col] === 2048) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+
     useEffect(() => {
         const handler = (event) => {
             if (!board.isLost) {
@@ -201,7 +210,7 @@ export default function Game() {
                 setBoard(
                     {
                         "board": result,
-                        "isWon": false,
+                        "isWon": checkWinCondition(board),
                         "isLost": checkLoseCondition(board)
                     }
                 )
