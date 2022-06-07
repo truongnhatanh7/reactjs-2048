@@ -1,6 +1,6 @@
 
 .popover-wrapper {
-    padding: 18px 24px;
+    padding: 28px 48px;
     position: absolute;
     top: 50%;
     right: 50%;
@@ -10,6 +10,6 @@
     place-items: center;
     background-color: white;
     border-radius: 8px;
-    border: 1px solid #ccc;
+    box-shadow: 4px 4px 48px rgb(80, 78, 74);
 }
 

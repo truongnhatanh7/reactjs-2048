@@ -135,9 +135,9 @@ function mergeDown(board) {
 export default function Game() {
 
     let [board, setBoard] = useState({
-        "board": [
-            [2048, 0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]
-        ],
+        "board": generateRandomCell([
+            [0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]
+        ]),
         "isWon": false,
         "isLost": false,
 
